@@ -1,0 +1,21 @@
+## intellij stuff
+.idea/
+
+## java specific
+!.gitignore
+*.iml
+*.iws
+*.ipr
+target
+*/target
+*/*/target
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+atomhopper/overlays
+atomhopper/src/main/webapp/META-INF/maven/org.atomhopper/atomhopper/pom.properties
