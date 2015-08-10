@@ -6,7 +6,7 @@
         <groupId>com.rackspace.feeds</groupId>
         <artifactId>cloudfeeds-atomhopper</artifactId>
         <relativePath>./../pom.xml</relativePath>
-        <version>1.12.0-SNAPSHOT</version>
+        <version>1.12.0</version>
     </parent>
 
     <groupId>com.rackspace.feeds</groupId>
@@ -321,11 +321,11 @@
                                     def result = http.request(POST) {
                                         uri.path = '4.0/createbuild.do'
                                         uri.query = ['app_id': appId, 'version': scanName, 'platform': platform]
-                                        response.success = { resp ->
+                                        response.success = { resp -&gt;
                                             println 'createbuild.do completed successfully (status=${resp.status}): '
                                             println resp.entity.content.text
                                         }
-                                        response.failure = { resp ->
+                                        response.failure = { resp -&gt;
                                             println 'createbuild.do failed (status=${resp.status}), reason:'
                                             println resp.entity.content.text
                                         }
@@ -352,11 +352,11 @@
                                     http.request(GET) {
                                         uri.path = '4.0/beginprescan.do'
                                         uri.query = ['app_id': appId, 'auto_scan': true]
-                                        response.success = { resp ->
+                                        response.success = { resp -&gt;
                                             println 'prescan sent successfully (status=${resp.status}):'
                                             println resp.entity.content.text
                                         }
-                                        response.failure = { resp ->
+                                        response.failure = { resp -&gt;
                                             println 'prescan failed (status=${resp.status}), reason:'
                                             println resp.entity.content.text
                                         }
