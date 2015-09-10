@@ -13,6 +13,7 @@ Some of the customizations are:
   on tenanted requests
 
 **How to build**
+To build this component, we require JDK 1.8
 ```
 mvn clean install
 ```
