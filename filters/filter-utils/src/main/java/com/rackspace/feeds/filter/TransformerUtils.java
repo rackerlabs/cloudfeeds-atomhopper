@@ -37,7 +37,7 @@ import java.util.Map;
  * This class performs the following:
  * <ul>
  *     <li>Calls the rest of the FilterChain, using the ServletResponsePipe class</li>
- *     <li>If the status code is between 200 and 300 & response contains XML, transforms the response from the
+ *     <li>If the status code is between 200 and 300 &amp; response contains XML, transforms the response from the
  *     wrappedResponse using the given XSLT, and then writes
  *     the response to the originalResponse. It leverages pooling of the xslt
  *     transformation objects</li>
