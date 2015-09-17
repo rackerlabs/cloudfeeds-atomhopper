@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 /**
  * This filter is to prevent observers reading an individual tenanted-entry from viewing other tenant's entries.
  *
- * If the request matches the entries URL pattern & is a 200, this filter verifies that the tenant id provided in the
+ * If the request matches the entries URL pattern &amp; is a 200, this filter verifies that the tenant id provided in the
  * tenanted-URI matches the tenant id for the entry.  If not, a 404 is returned.
  *
  * This filter has to be in the filter chain before TenantedFilter to be able to read tenantId from the request.
