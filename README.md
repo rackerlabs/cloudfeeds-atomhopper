@@ -1,7 +1,7 @@
 cloudfeeds-atomhopper
 =====================
 
-This project is currently in sustaining mode as deployed within Rackspace.  For more information on how to support this in sustaining mode please see https://one.rackspace.com/display/cloudfeeds/Cloud+Feeds+Sustaining+Mode+Documentation+Start+Page.
+*This project is currently in sustaining mode as deployed within Rackspace.  For more information on how to support this in sustaining mode please see https://one.rackspace.com/display/cloudfeeds/Cloud+Feeds+Sustaining+Mode+Documentation+Start+Page.*
 
 **Cloud Feeds Atom Hopper**
 is a Cloud Feeds component that customizes Atom Hopper web application for Rackspace use.
