@@ -17,6 +17,7 @@
         <atomhopper.version>1.2.33</atomhopper.version>
         <org.springframework.version>4.0.6.RELEASE</org.springframework.version>
         <abdera.version>1.1.2</abdera.version>
+        <xerces.version>2.11.0</xerces.version>
 
         <!-- for tests -->
         <groovy.version>2.2.0</groovy.version>
@@ -69,6 +70,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>${xerces.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>
