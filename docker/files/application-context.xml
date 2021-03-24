@@ -1212,9 +1212,9 @@
   </bean>
 
 
-  <bean id="concorde-jdbc-new-feed-read-repository-bean" class="org.apache.tomcat.jdbc.pool.DataSource">
+  <bean id="support-jdbc-new-feed-read-repository-bean" class="org.apache.tomcat.jdbc.pool.DataSource">
       <property name="driverClassName" value="org.postgresql.Driver" />
-      <property name="url" value="jdbc:postgresql://db:5432/concorde" />
+      <property name="url" value="jdbc:postgresql://db:5432/support" />
       <property name="username" value="postgres" />
       <property name="password" value="password" />
       <property name="minIdle" value="1" />
@@ -1231,9 +1231,9 @@
       <property name="removeAbandonedTimeout" value="65"/>
       <property name="logAbandoned" value="true"/>
   </bean>
-  <bean id="concorde-jdbc-new-feed-write-repository-bean" class="org.apache.tomcat.jdbc.pool.DataSource">
+  <bean id="support-jdbc-new-feed-write-repository-bean" class="org.apache.tomcat.jdbc.pool.DataSource">
       <property name="driverClassName" value="org.postgresql.Driver" />
-      <property name="url" value="jdbc:postgresql://atom-db-master.test.ord1.ci.rackspace.net:5432/concorde" />
+      <property name="url" value="jdbc:postgresql://atom-db-master.test.ord1.ci.rackspace.net:5432/support" />
       <property name="username" value="postgres" />
       <property name="password" value="password" />
       <property name="minIdle" value="1" />
@@ -1249,14 +1249,14 @@
       <property name="removeAbandonedTimeout" value="65"/>
       <property name="logAbandoned" value="true"/>
   </bean>
-  <bean name="concorde-jdbc-new-write" class="org.springframework.jdbc.core.JdbcTemplate">
-      <constructor-arg name="dataSource" ref="concorde-jdbc-new-feed-write-repository-bean" />
+  <bean name="support-jdbc-new-write" class="org.springframework.jdbc.core.JdbcTemplate">
+      <constructor-arg name="dataSource" ref="support-jdbc-new-feed-write-repository-bean" />
   </bean>
-  <bean name="concorde-jdbc-new-read" class="org.springframework.jdbc.core.JdbcTemplate">
-      <constructor-arg name="dataSource" ref="concorde-jdbc-new-feed-read-repository-bean" />
+  <bean name="support-jdbc-new-read" class="org.springframework.jdbc.core.JdbcTemplate">
+      <constructor-arg name="dataSource" ref="support-jdbc-new-feed-read-repository-bean" />
   </bean>
-  <bean name="concorde-jdbc-new-feed-source" class="org.atomhopper.jdbc.adapter.JdbcFeedSource">
-      <property name="jdbcTemplate" ref="concorde-jdbc-new-read" />
+  <bean name="support-jdbc-new-feed-source" class="org.atomhopper.jdbc.adapter.JdbcFeedSource">
+      <property name="jdbcTemplate" ref="support-jdbc-new-read" />
       <property name="enableLoggingOnShortPage">
           <value>false</value>
       </property>
@@ -1274,8 +1274,8 @@
       </property>
       <property name="delimiter" value=":"/>
   </bean>
-  <bean name="concorde-jdbc-new-feed-publisher" class="org.atomhopper.jdbc.adapter.JdbcFeedPublisher">
-      <property name="jdbcTemplate" ref="concorde-jdbc-new-write" />
+  <bean name="support-jdbc-new-feed-publisher" class="org.atomhopper.jdbc.adapter.JdbcFeedPublisher">
+      <property name="jdbcTemplate" ref="support-jdbc-new-write" />
       <property name="allowOverrideId">
          <value>true</value>
       </property>

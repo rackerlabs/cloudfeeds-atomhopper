@@ -3,19 +3,19 @@ FROM tomcat:9.0.41-jdk8 as tomcat
 
 FROM adoptopenjdk/openjdk8:alpine-slim
 
-LABEL maintainer="cloudfeeds@rackspace.com" \
-      #Atom Hopper version
-      version="1.9.1" \
+LABEL maintainer="cloudfeeds-core@rackspace.com" \
       description="Docker image for Cloudfeeds-Atom Hopper"
 
 #Saxon License file
 ARG saxon_lic
-ENV SAXON_HOME=/etc/saxon \
+ARG app_version
+ARG ah_version
 
-ENV  AH_VERSION=1.9.1 \
-     CATALINA_HOME=/opt/tomcat \
-     AH_HOME=/opt/atomhopper  \
-     PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME}
+ENV SAXON_HOME=/etc/saxon
+AH_VERSION=$ah_version
+CATALINA_HOME=/opt/tomcat
+AH_HOME=/opt/atomhopper
+PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME}
 
 
 RUN mkdir -p "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" /etc/atomhopper/ /var/log/atomhopper/ /etc/cloudfeeds/translation/
@@ -26,12 +26,13 @@ COPY --from=tomcat /usr/local/tomcat ${CATALINA_HOME}
 COPY files/* /etc/atomhopper/
 COPY feedscatalog.xml /etc/feedscatalog/
 COPY ${saxon_lic} ${SAXON_HOME}/saxon-license.lic
-RUN chmod +x ${AH_HOME}/start.sh
+
 
 RUN apk --no-cache add curl tar bash \
-    && curl https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/usage/usage-schema/${APP_VERSION}/usage-schema-${APP_VERSION}-schema.tar.gz | tar xz \
+    && curl https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/usage/usage-schema/${app_version}/usage-schema-${app_version}-schema.tar.gz | tar xz \
     && mv usage-schema-${APP_VERSION}/xslt-artifacts/* /etc/cloudfeeds/translation/. \
-    && curl -o ${CATALINA_HOME}/webapps/ https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/feeds/feeds-atomhopper/${AH_VERSION}/feeds-atomhopper-${AH_VERSION}.war \
+    && curl -o feeds-atomhopper.war https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/feeds/feeds-atomhopper/${AH_VERSION}/feeds-atomhopper-${AH_VERSION}.war \
+    && mv feeds-atomhopper.war ${CATALINA_HOME}/webapps/ROOT.war \
 
 
 EXPOSE 8080

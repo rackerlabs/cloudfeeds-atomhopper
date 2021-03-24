@@ -363,17 +363,6 @@ NOTE: Place this file in the following folder: /etc/atomhopper/atom-server.cfg.x
             </feed-response-handlers>
         </feed>
     </workspace>
-    <workspace title="support workspace" resource="/support/">
-        <categories-descriptor reference="workspace-categories-descriptor" />
-        <feed title="support feed" resource="/events">
-            <publisher reference="support-jdbc-new-feed-publisher" />
-            <feed-source reference="support-jdbc-new-feed-source" />
-            <feed-response-handlers>
-                <feed-response-handler reference="feed-paging-processor"/>
-                <feed-response-handler reference="role-aware-feed-etag-processor"/>
-            </feed-response-handlers>
-        </feed>
-    </workspace>
     <workspace title="ticketingintegration workspace" resource="/ticketingintegration/">
         <categories-descriptor reference="workspace-categories-descriptor" />
         <feed title="ticketingintegration feed" resource="/events">
