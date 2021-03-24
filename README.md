@@ -2,22 +2,18 @@ cloudfeeds-atomhopper
 =====================
 
 **docker build image and run the container**
-Your current direcotry should be pointing to cloudfeeds-atomhopper/docker. Run the following command to build an image.
-```
-$docker build -t cloudfeeds-atomhopper:latest-alpine .
-```
+Your current directory should be pointing to cloudfeeds-atomhopper/docker. Run the following command to build an image
+with the required arguments.
 
-To run atomhopper with default database configuration (H2) and port 8080
-```
-$docker run -d --name atomhopper -p 8080:8080 atomhopper:latest-alpine
-```
+Use VPN and keep saxon.lic fle in the directory for successful build of an image
+
 These ARGS  should be provided while building the docker image
 ```
 ARG saxon_lic
-ARG app_version
+ARG schema_version
 ARG ah_version
 
-For ex: docker build --build-arg ah_version=1.9.1 --build-arg AH_VERSION=1.136.1
+For ex: docker build --build-arg ah_version=1.9.1 --build-arg schema_version=1.137.0 --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest-alpine .
 ```
 
 Following environment variables are set by default

@@ -8,14 +8,14 @@ LABEL maintainer="cloudfeeds-core@rackspace.com" \
 
 #Saxon License file
 ARG saxon_lic
-ARG app_version
+ARG schema_version
 ARG ah_version
 
-ENV SAXON_HOME=/etc/saxon
-AH_VERSION=$ah_version
-CATALINA_HOME=/opt/tomcat
-AH_HOME=/opt/atomhopper
-PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME}
+ENV SAXON_HOME=/etc/saxon \
+    AH_VERSION=$ah_version \
+    CATALINA_HOME=/opt/tomcat \
+    AH_HOME=/opt/atomhopper \
+    PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME}
 
 
 RUN mkdir -p "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" /etc/atomhopper/ /var/log/atomhopper/ /etc/cloudfeeds/translation/
@@ -27,13 +27,11 @@ COPY files/* /etc/atomhopper/
 COPY feedscatalog.xml /etc/feedscatalog/
 COPY ${saxon_lic} ${SAXON_HOME}/saxon-license.lic
 
-
 RUN apk --no-cache add curl tar bash \
-    && curl https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/usage/usage-schema/${app_version}/usage-schema-${app_version}-schema.tar.gz | tar xz \
-    && mv usage-schema-${APP_VERSION}/xslt-artifacts/* /etc/cloudfeeds/translation/. \
+    && curl https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/usage/usage-schema/${schema_version}/usage-schema-${schema_version}-schema.tar.gz | tar xz \
+    && mv usage-schema-${schema_version}/xslt-artifacts/* /etc/cloudfeeds/translation/. \
     && curl -o feeds-atomhopper.war https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/feeds/feeds-atomhopper/${AH_VERSION}/feeds-atomhopper-${AH_VERSION}.war \
-    && mv feeds-atomhopper.war ${CATALINA_HOME}/webapps/ROOT.war \
-
+    && mv feeds-atomhopper.war ${CATALINA_HOME}/webapps/ROOT.war
 
 EXPOSE 8080
 
