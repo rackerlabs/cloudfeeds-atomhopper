@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!---
+
+NOTE: Place this file in the following folder: /etc/atomhopper/atom-server.cfg.xml
+
+-->
+<atom-hopper-config xmlns="http://atomhopper.org/atom/hopper-config/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://atomhopper.org/atom/hopper-config/v1.0 ./../../config/atom-hopper-config.xsd">
+    <defaults>
+        <author name="Atom Hopper" />
+    </defaults>
+
+     <!--
+         Make sure to put in your actual domain or IP address and
+         the port number your using or the self referencing links
+         will be incorrect.
+         Scheme should be either "http" or "https"
+     -->
+    <host domain="domain.com" scheme="http" />
+
+    <provider-filters>
+        <provider-filter reference="selective-uri-json-filter"/>
+    </provider-filters>
+
+    <workspace title="support workspace" resource="/support/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="support feed" resource="/events">
+            <publisher reference="support-jdbc-new-feed-publisher" />
+            <feed-source reference="support-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+
+    <workspace title="rackspacecdn workspace" resource="/rackspacecdn/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="rackspacecdn feed" resource="/events">
+            <publisher reference="rackspacecdn-jdbc-new-feed-publisher" />
+            <feed-source reference="rackspacecdn-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="domain workspace" resource="/domain/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="domain feed" resource="/events">
+            <publisher reference="domain-jdbc-new-feed-publisher" />
+            <feed-source reference="domain-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="servermill workspace" resource="/servermill/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="servermill feed" resource="/events">
+            <publisher reference="servermill-jdbc-new-feed-publisher" />
+            <feed-source reference="servermill-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="meta workspace" resource="/meta/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="meta feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="demo workspace" resource="/demo/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="demo feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="functest1 workspace" resource="/functest1/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="functest1 feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="functest2 workspace" resource="/functest2/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="functest2 feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagetest workspace" resource="/usagetest\d{1,2}/" enableRegexFeeds="true">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagetest feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="cadftest workspace" resource="/cadftest\d/" enableRegexFeeds="true">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="cadftest feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="widgettest workspace" resource="/widgettest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="widgettest feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="jsoncontentonlytest workspace" resource="/jsoncontentonlytest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="jsoncontentonlytest feed" resource="/events">
+            <publisher reference="demo-jdbc-new-feed-publisher" />
+            <feed-source reference="demo-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="customer workspace" resource="/customer/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="customer feed" resource="/events">
+            <publisher reference="customer-jdbc-new-feed-publisher" />
+            <feed-source reference="customer-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="customer_access_policy workspace" resource="/customer_access_policy/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="customer_access_policy feed" resource="/events">
+            <publisher reference="customer-jdbc-new-feed-publisher" />
+            <feed-source reference="customer-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="customer_accounts workspace" resource="/customer_accounts/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="customer_accounts feed" resource="/events">
+            <publisher reference="customer-jdbc-new-feed-publisher" />
+            <feed-source reference="customer-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="signup workspace" resource="/signup/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="signup feed" resource="/events">
+            <publisher reference="customer-jdbc-new-feed-publisher" />
+            <feed-source reference="customer-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="lbaas workspace" resource="/lbaas/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="lbaas feed" resource="/events">
+            <publisher reference="lbaas-jdbc-new-feed-publisher" />
+            <feed-source reference="lbaas-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="userintegration workspace" resource="/userintegration/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="userintegration feed" resource="/events">
+            <publisher reference="userintegration-jdbc-new-feed-publisher" />
+            <feed-source reference="userintegration-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="eps workspace" resource="/eps/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="eps feed" resource="/events">
+            <publisher reference="eps-jdbc-new-feed-publisher" />
+            <feed-source reference="eps-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="monitoring workspace" resource="/monitoring/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="monitoring feed" resource="/events">
+            <publisher reference="monitoring-jdbc-new-feed-publisher" />
+            <feed-source reference="monitoring-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="feeds UAE workspace" resource="/feeds_access/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="feeds UAE feed" resource="/events">
+            <publisher reference="feeds_access-jdbc-new-feed-publisher" />
+            <feed-source reference="feeds_access-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="ebs workspace" resource="/ebs/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="ebs feed" resource="/events">
+            <publisher reference="ebs-jdbc-new-feed-publisher" />
+            <feed-source reference="ebs-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="nimbus workspace" resource="/nimbus/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="nimbus feed" resource="/events">
+            <publisher reference="nimbus-jdbc-new-feed-publisher" />
+            <feed-source reference="nimbus-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="dedicatedvcloud workspace" resource="/dedicatedvcloud/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="dedicatedvcloud feed" resource="/events">
+            <publisher reference="dedicatedvcloud-jdbc-new-feed-publisher" />
+            <feed-source reference="dedicatedvcloud-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="cbs workspace" resource="/cbs/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="cbs feed" resource="/events">
+            <publisher reference="cbs-jdbc-new-feed-publisher" />
+            <feed-source reference="cbs-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="cms workspace" resource="/cms/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="cms feed" resource="/events">
+            <publisher reference="cms-jdbc-new-feed-publisher" />
+            <feed-source reference="cms-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="concorde workspace" resource="/concorde/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="concorde feed" resource="/events">
+            <publisher reference="concorde-jdbc-new-feed-publisher" />
+            <feed-source reference="concorde-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="billing workspace" resource="/billing/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="billing feed" resource="/events">
+            <publisher reference="billing-jdbc-new-feed-publisher" />
+            <feed-source reference="billing-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="billing audit workspace" resource="/billingaudit/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="billing audit feed" resource="/events">
+            <publisher reference="billing-jdbc-new-feed-publisher" />
+            <feed-source reference="billing-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="experiments workspace" resource="/experiments/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="experiments feed" resource="/events">
+            <publisher reference="experiments-jdbc-new-feed-publisher" />
+            <feed-source reference="experiments-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="newrelic workspace" resource="/newrelic/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="newrelic feed" resource="/events">
+            <publisher reference="newrelic-jdbc-new-feed-publisher" />
+            <feed-source reference="newrelic-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="ticketingintegration workspace" resource="/ticketingintegration/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="ticketingintegration feed" resource="/events">
+            <publisher reference="ticketingintegration-jdbc-new-feed-publisher" />
+            <feed-source reference="ticketingintegration-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="queues workspace" resource="/queues/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="queues feed" resource="/events">
+            <publisher reference="queues-jdbc-new-feed-publisher" />
+            <feed-source reference="queues-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="experiments_migration workspace" resource="/experiments_migration/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="experiments_migration feed" resource="/events">
+            <publisher reference="experiments_migration-migration-feed-publisher" />
+            <feed-source reference="experiments_migration-migration-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="experimentscopy workspace" resource="/experimentscopy/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="experimentscopy feed" resource="/events">
+            <publisher reference="experimentscopy-jdbc-new-feed-publisher" />
+            <feed-source reference="experimentscopy-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="sites workspace" resource="/sites/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="sites feed" resource="/events">
+            <publisher reference="sites-jdbc-new-feed-publisher" />
+            <feed-source reference="sites-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="core workspace" resource="/core/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="core feed" resource="/events">
+            <publisher reference="core-jdbc-new-feed-publisher" />
+            <feed-source reference="core-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="identity workspace" resource="/identity/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="identity feed" resource="/events">
+            <publisher reference="identity-jdbc-new-feed-publisher" />
+            <feed-source reference="identity-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="identity UAE workspace" resource="/identity_access/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="identity UAE feed" resource="/events">
+            <publisher reference="identity-jdbc-new-feed-publisher" />
+            <feed-source reference="identity-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="ticketing workspace" resource="/ticketing/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="ticketing feed" resource="/events">
+            <publisher reference="ticketing-jdbc-new-feed-publisher" />
+            <feed-source reference="ticketing-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="ssl workspace" resource="/ssl/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="ssl feed" resource="/events">
+            <publisher reference="ssl-jdbc-new-feed-publisher" />
+            <feed-source reference="ssl-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="automation workspace" resource="/automation/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="automation feed" resource="/events">
+            <publisher reference="automation-jdbc-new-feed-publisher" />
+            <feed-source reference="automation-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="nooverridestest workspace" resource="/nooverridestest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="nooverridestest feed" resource="/events">
+            <publisher reference="nooverridestest-jdbc-new-feed-publisher" />
+            <feed-source reference="nooverridestest-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="keep_access workspace" resource="/keep_access/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="keep_access feed" resource="/events">
+            <publisher reference="keep_access-jdbc-new-feed-publisher" />
+            <feed-source reference="keep_access-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="dbaas workspace" resource="/dbaas/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="dbaas feed" resource="/events">
+            <publisher reference="dbaas-jdbc-new-feed-publisher" />
+            <feed-source reference="dbaas-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagecorrelation workspace" resource="/usagecorrelation/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagecorrelation feed" resource="/events">
+            <publisher reference="usagesummary-jdbc-new-feed-publisher" />
+            <feed-source reference="usagesummary-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagesummary workspace" resource="/usagesummary/" enableRegexFeeds="true">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagesummary feeds" resource="/.*/events">
+            <publisher reference="usagesummary-jdbc-new-feed-publisher" />
+            <feed-source reference="usagesummary-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagedeadletter workspace" resource="/usagedeadletter/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagedeadletter feed" resource="/events">
+            <publisher reference="usagesummary-jdbc-new-feed-publisher" />
+            <feed-source reference="usagesummary-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagesummaryrecovery workspace" resource="/usagesummaryrecovery/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagesummaryrecovery feed" resource="/events">
+            <publisher reference="usagesummary-jdbc-new-feed-publisher" />
+            <feed-source reference="usagesummary-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="usagerecovery workspace" resource="/usagerecovery/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="usagerecovery feed" resource="/events">
+            <publisher reference="usagesummary-jdbc-new-feed-publisher" />
+            <feed-source reference="usagesummary-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="payment workspace" resource="/payment/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="payment feed" resource="/events">
+            <publisher reference="payment-jdbc-new-feed-publisher" />
+            <feed-source reference="payment-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="overridestest workspace" resource="/overridestest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="overridestest feed" resource="/events">
+            <publisher reference="overridestest-jdbc-new-feed-publisher" />
+            <feed-source reference="overridestest-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="perftest2 workspace" resource="/perftest2/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="perftest2 feed" resource="/events">
+            <publisher reference="perftest2-jdbc-new-feed-publisher" />
+            <feed-source reference="perftest2-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="perftest1 workspace" resource="/perftest1/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="perftest1 feed" resource="/events">
+            <publisher reference="perftest1-jdbc-new-feed-publisher" />
+            <feed-source reference="perftest1-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="glance workspace" resource="/glance/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="glance feed" resource="/events">
+            <publisher reference="glance-jdbc-new-feed-publisher" />
+            <feed-source reference="glance-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="bigdata workspace" resource="/bigdata/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="bigdata feed" resource="/events">
+            <publisher reference="bigdata-jdbc-new-feed-publisher" />
+            <feed-source reference="bigdata-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="neutron workspace" resource="/neutron/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="neutron feed" resource="/events">
+            <publisher reference="neutron-jdbc-new-feed-publisher" />
+            <feed-source reference="neutron-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="nova workspace" resource="/nova/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="nova feed" resource="/events">
+            <publisher reference="nova-jdbc-new-feed-publisher" />
+            <feed-source reference="nova-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="nova UAE workspace" resource="/nova_access/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="nova UAE feed" resource="/events">
+            <publisher reference="nova-jdbc-new-feed-publisher" />
+            <feed-source reference="nova-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="files workspace" resource="/files/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="files feed" resource="/events">
+            <publisher reference="files-jdbc-new-feed-publisher" />
+            <feed-source reference="files-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="consolidated_ticketing workspace" resource="/consolidated_ticketing/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="consolidated_ticketing feed" resource="/events">
+            <publisher reference="consolidated_ticketing-jdbc-new-feed-publisher" />
+            <feed-source reference="consolidated_ticketing-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="emailapps_msservice workspace" resource="/emailapps_msservice/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="emailapps_msservice feed" resource="/events">
+            <publisher reference="emailapps_msservice-jdbc-new-feed-publisher" />
+            <feed-source reference="emailapps_msservice-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="emailapps_usage workspace" resource="/emailapps_usage/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="emailapps_usage feed" resource="/events">
+            <publisher reference="emailapps_usage-jdbc-new-feed-publisher" />
+            <feed-source reference="emailapps_usage-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="encore workspace" resource="/encore/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="encore feed" resource="/events">
+            <publisher reference="encore-jdbc-new-feed-publisher" />
+            <feed-source reference="encore-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="userintegrationtest workspace" resource="/userintegrationtest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="userintegrationtest feed" resource="/events">
+            <publisher reference="userintegrationtest-jdbc-new-feed-publisher" />
+            <feed-source reference="userintegrationtest-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="servers workspace" resource="/servers/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="servers feed" resource="/events">
+            <publisher reference="servers-jdbc-new-feed-publisher" />
+            <feed-source reference="servers-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="dns workspace" resource="/dns/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="dns feed" resource="/events">
+            <publisher reference="dns-jdbc-new-feed-publisher" />
+            <feed-source reference="dns-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="dcx workspace" resource="/dcx/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="dcx feed" resource="/events">
+            <publisher reference="dcx-jdbc-new-feed-publisher" />
+            <feed-source reference="dcx-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="netdevice workspace" resource="/netdevice/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="netdevice feed" resource="/events">
+            <publisher reference="netdevice-jdbc-new-feed-publisher" />
+            <feed-source reference="netdevice-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="autoscale workspace" resource="/autoscale/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="autoscale feed" resource="/events">
+            <publisher reference="autoscale-jdbc-new-feed-publisher" />
+            <feed-source reference="autoscale-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="ticketingintegrationtest workspace" resource="/ticketingintegrationtest/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="ticketingintegrationtest feed" resource="/events">
+            <publisher reference="ticketingintegrationtest-jdbc-new-feed-publisher" />
+            <feed-source reference="ticketingintegrationtest-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+    <workspace title="backup workspace" resource="/backup/">
+        <categories-descriptor reference="workspace-categories-descriptor" />
+        <feed title="backup feed" resource="/events">
+            <publisher reference="backup-jdbc-new-feed-publisher" />
+            <feed-source reference="backup-jdbc-new-feed-source" />
+            <feed-response-handlers>
+                <feed-response-handler reference="feed-paging-processor"/>
+                <feed-response-handler reference="role-aware-feed-etag-processor"/>
+            </feed-response-handlers>
+        </feed>
+    </workspace>
+</atom-hopper-config>
