@@ -11,8 +11,8 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="amazonAWSCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
-        <constructor-arg value="AKIAY2P3DGHF3DXVA4W6" />
-        <constructor-arg value="jGZ8v2vooPjrshnSrAq2JO11RkPtIzWpb3IwDQly" />
+        <constructor-arg value="XXXXXXXX" />
+        <constructor-arg value="XXXXXXXX" />
     </bean>
 
     <bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
