@@ -1,8 +1,10 @@
 **docker build image and run the container**
 
-Your current directory should be pointing to **cloudfeeds-atomhopper/docker**. Run the following command to build an image with the required arguments.
+Your current directory should be pointing to **cloudfeeds-atomhopper/docker**. 
 
-Use VPN and keep saxon.lic fle in the directory for successful build of the image.
+Run the following command to build an image with the required arguments.
+
+Use **VPN** and keep **saxon.lic** fle in the directory for successful build of the image.
 
 Following arguments are mandatory to be provided while building the docker image
 
