@@ -15,77 +15,10 @@
         <constructor-arg value="XXXXXXXX" />
     </bean>
 
-   <!--bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
-        <constructor-arg ref="amazonAWSCredentials" />
-        <property name="endpoint" value="https://dynamodb.ap-south-1.amazonaws.com" />
-    </bean-->
-
     <bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
         <constructor-arg ref="amazonAWSCredentials" />
         <property name="endpoint" value="http://db:8000" />
     </bean>
-
-        <!-- DynamoDB service -->
-    <!-- Configure from environment variables -->
-    <!--bean id="awsCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
-        <constructor-arg value="ASIA2R5DFDN5OZQU5RYT" />
-        <constructor-arg value="n+p80RfWdzgzJJaW1AXYdDUZEUCdMN3Mucyy0l/u" />
-    </bean>
-    <bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
-        <constructor-arg ref="awsCredentials" />
-    </bean>
-    <bean id="region_enum" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass">
-            <value>com.amazonaws.regions.Regions</value>
-        </property>
-        <property name="targetMethod">
-            <value>fromName</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <value>us-east-1</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="region" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass">
-            <value>com.amazonaws.regions.Region</value>
-        </property>
-        <property name="targetMethod">
-            <value>getRegion</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <ref local="region_enum" />
-            </list>
-        </property>
-    </bean>
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetObject">
-            <ref local="client" />
-        </property>
-        <property name="targetMethod">
-            <value>setRegion</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <ref local="region" />
-            </list>
-        </property>
-    </bean>
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetObject">
-            <ref local="client" />
-        </property>
-        <property name="targetMethod">
-            <value>setEndpoint</value>
-        </property>
-        <property name="arguments">
-            <list>
-                <value>http://db:8000</value>
-            </list>
-        </property>
-    </bean-->
 
     <bean id="dynamodb-feed-publisher" name="dynamodb-feed-publisher" class="org.atomhopper.dynamodb.adapter.DynamoFeedDBPublisher">
         <property name="dynamoDBClient" ref="client"></property>
