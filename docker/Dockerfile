@@ -23,9 +23,11 @@ RUN mkdir -p "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" /etc/atomhopper/ /v
 WORKDIR ${AH_HOME}
 
 COPY --from=tomcat /usr/local/tomcat ${CATALINA_HOME}
+COPY entrypoint.sh .
 COPY files/* /etc/atomhopper/
 COPY feedscatalog.xml /etc/feedscatalog/
 COPY ${saxon_lic} ${SAXON_HOME}/saxon-license.lic
+RUN chmod +x ${AH_HOME}/entrypoint.sh
 
 RUN apk --no-cache add curl tar bash \
     && curl https://maven.research.rackspacecloud.com/content/repositories/releases/com/rackspace/usage/usage-schema/${schema_version}/usage-schema-${schema_version}-schema.tar.gz | tar xz \
@@ -35,5 +37,5 @@ RUN apk --no-cache add curl tar bash \
 
 EXPOSE 8080
 
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["entrypoint.sh"]
 
