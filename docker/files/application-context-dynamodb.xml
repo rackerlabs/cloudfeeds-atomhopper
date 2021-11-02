@@ -20,13 +20,13 @@
         <property name="endpoint" value="http://db:8000" />
     </bean>
 
-    <bean id="dynamodb-feed-publisher" name="dynamodb-feed-publisher" class="org.atomhopper.dynamodb.adapter.DynamoFeedDBPublisher">
+    <bean id="dynamodb-feed-publisher" name="dynamodb-feed-publisher" class="org.atomhopper.dynamodb.adapter.DynamoDBFeedPublisher">
         <property name="dynamoDBClient" ref="client"></property>
     </bean>
 
-    <!--bean id="dynamodb-feed-source" name="dynamodb-feed-source" class="org.atomhopper.dynamodb.adapter.DynamoFeedPublisher">
-        <property name="dynamoDBClient" ref="client"></property>
-    </bean-->
+    <bean id="dynamodb-feed-source" name="dynamodb-feed-source" class="org.atomhopper.dynamodb.adapter.DynamoDBFeedSource">
+        <constructor-arg ref="client" />
+    </bean>
 
     <bean name="feed-paging-processor" class="org.atomhopper.abdera.filter.FeedPagingProcessor"/>
     <bean name="role-aware-feed-etag-processor" class="org.atomhopper.abdera.filter.HeaderValueFeedEntityTagProcessor">
