@@ -14,7 +14,7 @@ Following arguments are mandatory to be provided while building the docker image
 
 For example: 
 ```
-docker build --build-arg ah_version=1.9.1 --build-arg schema_version=1.137.0 --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
+docker build --build-arg ah_version=1.14.1-SNAPSHOT --build-arg schema_version=1.138.3-SNAPSHOT --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
 ```
 
 Following environment variables are set by default
