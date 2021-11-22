@@ -10,6 +10,7 @@ LABEL maintainer="cloudfeeds-core@rackspace.com" \
 ARG saxon_lic
 ARG schema_version
 ARG ah_version
+ARG catalog_version
 
 ENV SAXON_HOME=/etc/saxon \
     AH_VERSION=$ah_version \
@@ -45,6 +46,7 @@ RUN apk --no-cache add curl tar bash \
     && mv usage-schema-${schema_version}/xslt-artifacts/* /etc/cloudfeeds/translation/. \
     && curl -o feeds-atomhopper.war https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/feeds/feeds-atomhopper/${AH_VERSION}/feeds-atomhopper-${AH_VERSION}.war \
     && mv feeds-atomhopper.war ${CATALINA_HOME}/webapps/ROOT.war \
+    && curl -o ${CATALINA_HOME}/webapps/feedscatalog.war https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/feeds/feedscatalog/${catalog_version}/feedscatalog-${catalog_version}.war \
     && rm -r usage-schema*
 
 EXPOSE 8080
