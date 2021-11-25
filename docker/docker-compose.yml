@@ -1,0 +1,75 @@
+
+# Sample Docker compose file. Just for local testing. Modify the file according to your need
+# and do not commit unless you think the change would benefit others
+
+version: "3"
+
+networks:
+  feeds-local:
+    external: false
+
+services:
+  atomhopper:
+    image: cloudfeeds-atomhopper:cf_jfrog
+    container_name: cloudfeeds-atomhopper
+ #   restart: never
+    networks:
+      - feeds-local
+    environment: 
+      - DB_TYPE=postgres
+      - DB_HOST=postgresdb
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_ENDPOINT=http://ddb:8000
+      - ACCESS_KEY_ID=AAAAAAAAA
+      - SECRET_ACCESS_KEY=BBBBBBB
+    ports:
+       - "8080:8080"
+    links:
+      - ddb
+      - postgresdb
+    depends_on:
+      - ddb
+      - postgresdb
+
+  ddb:
+#    command: "-jar DynamoDBLocal.jar -sharedDb"
+#    image: amazon/dynamodb-local
+    image: ddb-local:latest
+    container_name: dynamodb-local
+#    restart: never
+    networks:
+      - feeds-local
+    ports:
+      - "8000:8000"
+
+  postgresdb:
+    image: postgres:9.5-alpine
+    container_name: postgres
+#    restart: never
+    networks:
+      - feeds-local
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+#      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+
+  repose:
+    image: repose-external:jfrog
+    container_name: repose
+ #   restart: never
+    networks:
+      - feeds-local
+    environment: 
+      - DESTINATION_PORT=8080
+    ports:
+       - "9090:9090"
+    links:
+      - atomhopper
+#      - postgresdb
+    depends_on:
+      - atomhopper
+#      - postgresdb
