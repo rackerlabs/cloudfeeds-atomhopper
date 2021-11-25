@@ -1,3 +1,7 @@
+
+# Sample Docker compose file. Just for local testing. Modify the file according to your need
+# and do not commit unless you think the change would benefit others
+
 version: "3"
 
 networks:
@@ -54,7 +58,7 @@ services:
       - "5432:5432"
 
   repose:
-    image: repose-external:demo
+    image: repose-external:jfrog
     container_name: repose
  #   restart: never
     networks:

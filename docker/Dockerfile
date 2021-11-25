@@ -28,7 +28,6 @@ ENV SAXON_HOME=/etc/saxon \
     ACCESS_KEY_ID= \
     SECRET_ACCESS_KEY= \
     DB_ENDPOINT= 
-    #AtomHopper Version
 
 RUN mkdir -p "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" /etc/atomhopper/ /var/log/atomhopper/ /etc/cloudfeeds/translation/
 
@@ -39,8 +38,9 @@ COPY entrypoint.sh .
 COPY files/* /etc/atomhopper/
 COPY feedscatalog.xml /etc/feedscatalog/
 COPY ${saxon_lic} ${SAXON_HOME}/saxon-license.lic
-RUN chmod +x ${AH_HOME}/entrypoint.sh
 
+#pulling from Artifactory and placing the war components 
+RUN chmod +x ${AH_HOME}/entrypoint.sh
 RUN apk --no-cache add curl tar bash \
     && curl https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/usage/usage-schema/${schema_version}/usage-schema-${schema_version}-schema.tar.gz | tar xz \
     && mv usage-schema-${schema_version}/xslt-artifacts/* /etc/cloudfeeds/translation/. \

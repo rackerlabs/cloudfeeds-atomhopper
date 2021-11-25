@@ -1,6 +1,6 @@
 **docker build image and run the container**
 
-Your current directory should be pointing to **cloudfeeds-atomhopper/docker**. 
+Your current directory should be pointing to **{Project Home}/docker**. 
 
 Run the following command to build an image with the required arguments.
 
@@ -15,7 +15,7 @@ Following arguments are mandatory to be provided while building the docker image
 
 For example: 
 ```
-docker build --build-arg ah_version=1.14.1-SNAPSHOT --build-arg schema_version=1.138.3-SNAPSHOT --build-arg catalog_version=1.138.4-SNAPSHOT --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
+docker build --build-arg ah_version=1.14.1-SNAPSHOT --build-arg schema_version=1.138.3-SNAPSHOT --build-arg catalog_version=1.138.3-SNAPSHOT --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
 ```
 
 Following environment variables are set by default
