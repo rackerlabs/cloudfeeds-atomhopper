@@ -30,9 +30,9 @@ PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME}
 
 Running Cloudfeeds with Postgres database.
 ```
-docker run -d --name cloudfeeds:postgres -e DB_TYPE=postgres -e DB_HOST=abc -e DB_PORT=5432 -e DB_USER=xyz -e DB_PASSWORD=xyz cloudfeeds-atomhopper:latest
+docker run -d --name cloudfeeds:postgres -p 8080:8080 -e DB_TYPE=postgres -e DB_HOST=abc -e DB_PORT=5432 -e DB_USER=xyz -e DB_PASSWORD=xyz cloudfeeds-atomhopper:latest
 ```
 Running Cloudfeeds with DynamoDB database. The DynamoDB endpoint must be a [Regional Endpoint](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
 ```
-docker run -d --name cloudfeeds:dynamodb -e DB_TYPE=dynamodb -e DB_ENDPOINT=http://xyz.com:8000 -e ACCESS_KEY_ID=AAAAAA -e SECRET_ACCESS_KEY=BBBBB cloudfeeds-atomhopper:latest
+docker run -d --name cloudfeeds:dynamodb -p 8080:8080 -e DB_TYPE=dynamodb -e DB_ENDPOINT=http://xyz.com:8000 -e ACCESS_KEY_ID=AAAAAA -e SECRET_ACCESS_KEY=BBBBB cloudfeeds-atomhopper:latest
 ```
