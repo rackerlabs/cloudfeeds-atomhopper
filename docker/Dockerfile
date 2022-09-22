@@ -51,5 +51,5 @@ RUN apk --no-cache add curl tar bash \
 
 EXPOSE 8080
 
-CMD ["entrypoint.sh"]
+CMD entrypoint.sh
 
