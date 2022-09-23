@@ -13,10 +13,18 @@ Following arguments are mandatory to be provided while building the docker image
 - ah_version
 - catalog_version
 
+
+
 For example: 
 ```
-docker build --build-arg ah_version=1.14.1-SNAPSHOT --build-arg schema_version=1.138.3-SNAPSHOT --build-arg catalog_version=1.138.3-SNAPSHOT --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
+docker build --build-arg ah_version=1.14.2-SNAPSHOT --build-arg schema_version=1.138.3-SNAPSHOT --build-arg catalog_version=1.138.4-SNAPSHOT --build-arg saxon_lic=saxon-license.lic -t cloudfeeds-atomhopper:latest .
 ```
+
+- The cloudfeeds atomhopper docker image uses the feeds-atomhopper.war (https://artifacts.rackspace.net/ui/repos/tree/General/cloudfeeds-maven-local/com/rackspace/feeds/feeds-atomhopper)
+
+- Currently we are using the feeds-atomhopper-1.14.2-SNAPSHOT.war which is internally using the atomhopper-1.2.35-SNAPSHOT.war(https://artifacts.rackspace.net/ui/repos/tree/General/cloudfeeds-maven-local/org/atomhopper/atomhopper).
+
+- atomhopper-1.2.35-SNAPSHOT.war is having application-context.xml and atom-server.cfg.xml for dynamodb adapter. 
 
 Following environment variables are set by default
 ```
