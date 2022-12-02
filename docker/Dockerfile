@@ -25,8 +25,6 @@ ENV SAXON_HOME=/etc/saxon \
     DB_HOST= \
     DB_PORT= \
     #DynamoDB Variables
-    ACCESS_KEY_ID= \
-    SECRET_ACCESS_KEY= \
     DB_ENDPOINT= 
 
 RUN mkdir -p "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" /etc/atomhopper/ /var/log/atomhopper/ /etc/cloudfeeds/translation/

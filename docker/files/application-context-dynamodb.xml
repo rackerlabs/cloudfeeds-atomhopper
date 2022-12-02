@@ -10,13 +10,7 @@
                            http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="amazonAWSCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
-        <constructor-arg value="XXXXXXXX" />
-        <constructor-arg value="XXXXXXXX" />
-    </bean>
-
     <bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
-        <!-- <constructor-arg ref="amazonAWSCredentials" /> -->
         <property name="endpoint" value="http://db:8000" />
     </bean>
 

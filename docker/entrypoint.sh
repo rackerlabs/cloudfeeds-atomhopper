@@ -40,12 +40,6 @@ then
         #Taking backup of the original configuration 
         cp $CURRENT_CTX_FILE $CURRENT_CTX_FILE.orig
         echo "Replacing database configuration in $CURRENT_CTX_FILE"
-        #Replacing Endpoint
-        sed -i -e "s@\(<property name=\"endpoint\" value=\"\).*\(\".*\)@\1${DB_ENDPOINT}\2@g" $CURRENT_CTX_FILE
-        #Replacing AWS ACCESS_KEY_ID 
-        sed -i -e "1,/<constructor-arg value=\"/s/\(<constructor-arg value=\"\).*\(\".*\)/\1${ACCESS_KEY_ID}\2/" $CURRENT_CTX_FILE
-        #Replacing AWS SECRET_ACCESS_KEY
-        sed -i -e "1,/<constructor-arg value=\"/n;n;s/\(<constructor-arg value=\"\).*\(\".*\)/\1${SECRET_ACCESS_KEY}\2/" $CURRENT_CTX_FILE
 
         #Taking backup of the original atom-server.cfg.xml
         cp $APP_CTX_PATH/atom-server.cfg.xml $APP_CTX_PATH/atom-server.cfg.xml.orig
