@@ -16,7 +16,7 @@
     </bean>
 
     <bean id="client" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
-        <constructor-arg ref="amazonAWSCredentials" />
+        <!-- <constructor-arg ref="amazonAWSCredentials" /> -->
         <property name="endpoint" value="http://db:8000" />
     </bean>
 
