@@ -1,6 +1,7 @@
 #base tomcat 9 with openjdk 8
 FROM tomcat:9.0.41-jdk8 as tomcat
-
+COPY server.xml /usr/local/tomcat/conf/
+COPY logging.properties /usr/local/tomcat/conf/
 FROM adoptopenjdk/openjdk8:alpine-slim
 
 LABEL maintainer="cloudfeeds-core@rackspace.com" \
