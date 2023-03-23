@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# sample command to build image
+# use below command to build image
 # docker build -t ah-mvn:v1 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
 
 # ======================== Build cloudfeeds atomhopper using maven container image =======================
