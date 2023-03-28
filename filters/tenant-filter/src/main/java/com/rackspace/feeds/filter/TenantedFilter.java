@@ -186,8 +186,6 @@ public class TenantedFilter implements Filter {
         }
 
         String calculateTenantId(HttpServletRequest request) {
-            request.setAttribute(XMLInputFactory.SUPPORT_DTD, false);
-            request.setAttribute(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
             
             String uri = request.getRequestURI();
             if ( StringUtils.isEmpty(uri) ) {

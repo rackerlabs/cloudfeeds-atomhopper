@@ -51,11 +51,6 @@ public class ExternalHrefFilter implements Filter {
 
     private TransformerUtils transformer;
 
-    private static String sanitizePathTraversal(String filename) {
-        Path p = Paths.get(filename);
-        return p.getFileName().toString();
-  }
-
     public void  init(FilterConfig config)
             throws ServletException {
 
@@ -71,7 +66,7 @@ public class ExternalHrefFilter implements Filter {
         try {
             // quick and dirty, since the file is very small
             
-            byte[] bytes = Files.readAllBytes(Paths.get(sanitizePathTraversal(envFilePath)));
+            byte[] bytes = Files.readAllBytes(Paths.get((new File(envFilePath).getCanonicalPath())));
             String environment = new String(bytes);
             Pattern pattern = Pattern.compile(".*<externalVipURL>(.*)</externalVipURL>.*");
             Matcher matcher = pattern.matcher(environment);
