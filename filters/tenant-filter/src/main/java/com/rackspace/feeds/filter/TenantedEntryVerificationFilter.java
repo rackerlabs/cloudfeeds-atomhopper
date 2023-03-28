@@ -103,7 +103,7 @@ public class TenantedEntryVerificationFilter implements Filter {
             } else {
                 // copy original response as is
                 LOG.debug("Skipping tenant id corresponding to entry validation cuz of non-tenantId request or error/empty response");
-                setResponseContent(originalResponseContent, servletResponse);
+                servletResponse = setResponseContent(originalResponseContent, servletResponse);
             }
 
         } else {
@@ -146,7 +146,7 @@ public class TenantedEntryVerificationFilter implements Filter {
             }
 
             // copy original response as validation was successful.
-            setResponseContent(originalResponseContent, servletResponse);
+            servletResponse = setResponseContent(originalResponseContent, servletResponse);
 
         } catch (Exception e) {
             // if internal error, report as such
@@ -194,11 +194,15 @@ public class TenantedEntryVerificationFilter implements Filter {
     private void setErrorResponse(ServletResponse servletResponse, int statusCode, String message) throws IOException {
         LOG.debug(String.format("Changing status code to %s because of the error message %s", statusCode, message));
         ((HttpServletResponse) servletResponse).setStatus(statusCode);
-        setResponseContent(getErrorMessage(statusCode, message), servletResponse);
+        servletResponse = setResponseContent(getErrorMessage(statusCode, message), servletResponse);
     }
 
-    private void setResponseContent(String responseContent, ServletResponse servletResponse) throws IOException {
-        servletResponse.getOutputStream().write(responseContent.getBytes());
+    private ServletResponse setResponseContent(String responseContent, ServletResponse servletResponse) throws IOException {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        httpServletResponse.addHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+        httpServletResponse.getOutputStream().write(responseContent.getBytes());
+        
+        return httpServletResponse;
     }
 
     @Override

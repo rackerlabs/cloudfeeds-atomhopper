@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -50,6 +51,11 @@ public class ExternalHrefFilter implements Filter {
 
     private TransformerUtils transformer;
 
+    private static String sanitizePathTraversal(String filename) {
+        Path p = Paths.get(filename);
+        return p.getFileName().toString();
+  }
+
     public void  init(FilterConfig config)
             throws ServletException {
 
@@ -64,7 +70,8 @@ public class ExternalHrefFilter implements Filter {
         }
         try {
             // quick and dirty, since the file is very small
-            byte[] bytes = Files.readAllBytes(Paths.get(envFilePath));
+            
+            byte[] bytes = Files.readAllBytes(Paths.get(sanitizePathTraversal(envFilePath)));
             String environment = new String(bytes);
             Pattern pattern = Pattern.compile(".*<externalVipURL>(.*)</externalVipURL>.*");
             Matcher matcher = pattern.matcher(environment);

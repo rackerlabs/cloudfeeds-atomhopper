@@ -37,13 +37,12 @@ COPY entrypoint.sh .
 COPY files/* /etc/atomhopper/
 COPY feedscatalog.xml /etc/feedscatalog/
 COPY ${saxon_lic} ${SAXON_HOME}/saxon-license.lic
-
+COPY feeds-atomhopper.war .
 #pulling from Artifactory and placing the war components 
 RUN chmod +x ${AH_HOME}/entrypoint.sh
 RUN apk --no-cache add curl tar bash \
     && curl https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/usage/usage-schema/${schema_version}/usage-schema-${schema_version}-schema.tar.gz | tar xz \
     && mv usage-schema-${schema_version}/xslt-artifacts/* /etc/cloudfeeds/translation/. \
-    && curl -o feeds-atomhopper.war https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/feeds/feeds-atomhopper/${AH_VERSION}/feeds-atomhopper-${AH_VERSION}.war \
     && mv feeds-atomhopper.war ${CATALINA_HOME}/webapps/ROOT.war \
     && curl -o ${CATALINA_HOME}/webapps/feedscatalog.war https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/feeds/feedscatalog/${catalog_version}/feedscatalog-${catalog_version}.war \
     && rm -r usage-schema*

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import javax.xml.stream.XMLInputFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -184,6 +186,9 @@ public class TenantedFilter implements Filter {
         }
 
         String calculateTenantId(HttpServletRequest request) {
+            request.setAttribute(XMLInputFactory.SUPPORT_DTD, false);
+            request.setAttribute(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+            
             String uri = request.getRequestURI();
             if ( StringUtils.isEmpty(uri) ) {
                 throw new IllegalArgumentException("Empty uri");

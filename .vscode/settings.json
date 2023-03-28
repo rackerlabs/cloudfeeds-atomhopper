@@ -1,0 +1,11 @@
+{
+    "cx.server": {
+        "url": "https://codescan.ges.rackspace.com/",
+        "alias": "cloudfeeds",
+        "username": "",
+        "password": "",
+        "project_id": 1108,
+        "team_id": 66,
+        "project_name": "atomhopper-filter"
+    }
+}

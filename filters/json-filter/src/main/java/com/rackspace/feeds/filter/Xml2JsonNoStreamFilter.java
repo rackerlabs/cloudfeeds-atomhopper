@@ -90,6 +90,7 @@ public class Xml2JsonNoStreamFilter extends Xml2JsonFilter {
         else {
             response.setContentType(JSON_MEDIA_TYPE);
         }
+        response.addHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         response.getWriter().write(content);
     }
 
