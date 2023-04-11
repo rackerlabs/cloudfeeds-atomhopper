@@ -17,7 +17,7 @@
         <atomhopper.version>1.2.35-SNAPSHOT</atomhopper.version>
         <org.springframework.version>4.0.6.RELEASE</org.springframework.version>
         <abdera.version>1.1.2</abdera.version>
-        <xerces.version>2.11.0</xerces.version>
+        <xerces.version>2.12.2</xerces.version>
 
         <!-- for tests -->
         <groovy.version>2.2.0</groovy.version>
@@ -109,7 +109,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.4</version>
+                <version>2.7</version>
             </dependency>
 
             <dependency>
