@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # use below command to build image
-# docker build --platform=linux/amd64 -t khannakavish/cloudfeeds-atomhopper:v24 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
 
+# docker build -t ah-mvn:v1 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
+#docker build --platform=linux/amd64 -t khannakavish/cloudfeeds-atomhopper:v43 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
 # ======================== Build cloudfeeds atomhopper using maven container image =======================
 
 FROM maven:3.8.6-openjdk-8-slim AS builder
@@ -77,14 +78,19 @@ ENV SAXON_HOME=/etc/saxon \
 
 # add non privileged user
 RUN <<EOF
+      USER feeds:feeds
       groupadd -r feeds && useradd -r -g feeds feeds
 
       mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
       chown -R feeds:feeds "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
-
+      VOLUME ["/usr/local/tomcat/logs/", "/var/log/"]
       wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
       chown feeds:feeds /usr/local/bin/dumb-init
+      chown feeds:feeds /usr/local/tomcat/logs/
+      chown feeds:feeds /var/log/
       chmod u+x /usr/local/bin/dumb-init
+      chmod u+x /usr/local/tomcat/logs/
+      chmod u+x /var/log/
 EOF
 
 WORKDIR ${CATALINA_HOME}
@@ -97,6 +103,7 @@ COPY --chown=feeds:feeds ./docker/feedscatalog.xml                        /etc/f
 COPY --chown=feeds:feeds ./docker/${saxon_lic}                            ${SAXON_HOME}/saxon-license.lic
 
 USER feeds:feeds
+VOLUME ["/usr/local/tomcat/logs/", "/var/log/"]
 
 
 #  ======================= get ca cert bundle from curl.haxx.se  =======================
@@ -106,7 +113,6 @@ USER feeds:feeds
 COPY --chown=feeds:feeds --from=builder /cf-ah/feeds-atomhopper/target/feeds-atomhopper-1.14.1-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
 
 COPY --chown=feeds:feeds --from=package /usage-schema-${SCHEMA_VERSION}/xslt-artifacts/* /etc/cloudfeeds/translation/
-COPY --chown=feeds:feeds --from=package /feedscatalog.war ${CATALINA_HOME}/webapps/feedscatalog.war
 
 EXPOSE ${SERVICE_PORT}
 
