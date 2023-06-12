@@ -95,6 +95,7 @@ COPY --chown=feeds:feeds ./docker/files/application-context.xml           "${APP
 COPY --chown=feeds:feeds ./docker/files/atom-server.cfg.xml               "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/files/logback.xml                       "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/feedscatalog.xml                        /etc/feedscatalog/
+COPY --chown=feeds:feeds ./docker/server.xml                              /usr/local/tomcat/conf/
 COPY --chown=feeds:feeds ./docker/${saxon_lic}                            ${SAXON_HOME}/saxon-license.lic
 
 USER feeds:feeds
