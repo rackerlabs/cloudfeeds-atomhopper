@@ -95,8 +95,14 @@ COPY --chown=feeds:feeds ./docker/files/application-context.xml           "${APP
 COPY --chown=feeds:feeds ./docker/files/atom-server.cfg.xml               "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/files/logback.xml                       "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/feedscatalog.xml                        /etc/feedscatalog/
-COPY --chown=feeds:feeds ./docker/server.xml                              /usr/local/tomcat/conf/
+COPY --chown=feeds:feeds ./docker/transform.xsl                           /usr/local/tomcat
 COPY --chown=feeds:feeds ./docker/${saxon_lic}                            ${SAXON_HOME}/saxon-license.lic
+
+RUN <<EOF
+      apt-get update
+      yes | apt-get install xsltproc
+      xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml
+EOF
 
 USER feeds:feeds
 VOLUME /usr/local/tomcat/logs/ /var/log/atomhopper/
