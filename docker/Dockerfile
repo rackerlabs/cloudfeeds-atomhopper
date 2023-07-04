@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # use below command to build image
-# docker build -t ah-mvn:v1 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
 
+# docker build -t ah-mvn:v1 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
+#docker build --platform=linux/amd64 -t khannakavish/cloudfeeds-atomhopper:v43 -f Dockerfile --build-arg AH_VERSION="1.14.1-SNAPSHOT" --build-arg SCHEMA_VERSION=1.138.3-SNAPSHOT --build-arg CATALOG_VERSION=1.138.4-SNAPSHOT  --build-arg saxon_lic=saxon-license.lic  ../
 # ======================== Build cloudfeeds atomhopper using maven container image =======================
 
 FROM maven:3.8.6-openjdk-8-slim AS builder
@@ -94,10 +95,18 @@ COPY --chown=feeds:feeds ./docker/files/application-context.xml           "${APP
 COPY --chown=feeds:feeds ./docker/files/atom-server.cfg.xml               "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/files/logback.xml                       "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds ./docker/feedscatalog.xml                        /etc/feedscatalog/
+COPY --chown=feeds:feeds ./docker/transform.xsl                           /usr/local/tomcat
 COPY --chown=feeds:feeds ./docker/${saxon_lic}                            ${SAXON_HOME}/saxon-license.lic
 
-USER feeds:feeds
+RUN <<EOF
+      apt-get update
+      yes | apt-get install xsltproc
+      xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml
+      rm -rf /var/lib/apt/lists/*
+EOF
 
+USER feeds:feeds
+VOLUME /usr/local/tomcat/logs/ /var/log/atomhopper/
 
 #  ======================= get ca cert bundle from curl.haxx.se  =======================
 #RUN curl https://curl.haxx.se/ca/cacert.pem -L -o /cacert.pem
@@ -106,7 +115,6 @@ USER feeds:feeds
 COPY --chown=feeds:feeds --from=builder /cf-ah/feeds-atomhopper/target/feeds-atomhopper-1.14.1-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
 
 COPY --chown=feeds:feeds --from=package /usage-schema-${SCHEMA_VERSION}/xslt-artifacts/* /etc/cloudfeeds/translation/
-COPY --chown=feeds:feeds --from=package /feedscatalog.war ${CATALINA_HOME}/webapps/feedscatalog.war
 
 EXPOSE ${SERVICE_PORT}
 
