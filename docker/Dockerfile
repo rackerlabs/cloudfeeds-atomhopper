@@ -98,7 +98,7 @@ ENV SAXON_HOME=/etc/saxon \
 
 # add non privileged user
 RUN <<EOF
-      groupadd -r feeds && useradd -r -g feeds feeds
+      sudo groupadd -r feeds && useradd -r -g feeds feeds
 
       mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
       chown -R feeds:feeds "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
