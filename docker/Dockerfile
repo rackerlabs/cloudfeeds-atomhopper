@@ -108,11 +108,12 @@ ENV SAXON_HOME=/etc/saxon \
 #       chmod u+x /usr/local/bin/dumb-init
 # EOF
 
-RUN   groupadd --gid 1000 feeds && useradd --uid 1000 --gid 1000 feeds \
-      mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/ \
-      chown -R feeds:feeds "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/ \
-      wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 \
-      chown feeds:feeds /usr/local/bin/dumb-init \
+RUN   groupadd --gid 1000 feeds && \
+      useradd -u 1000 -g feeds feeds  && \
+      mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/ && \
+      chown -R feeds:feeds "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/  && \
+      wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64  && \
+      chown feeds:feeds /usr/local/bin/dumb-init  && \
       chmod u+x /usr/local/bin/dumb-init
 
 WORKDIR ${CATALINA_HOME}
@@ -127,9 +128,9 @@ COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/transform.xsl           
 
 
 
-RUN   apt-get update \
-      yes | apt-get install xsltproc \
-      xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml \
+RUN   apt-get update  && \
+      yes | apt-get install xsltproc  && \
+      xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml  && \
       rm -rf /var/lib/apt/lists/*
 
 USER feeds
