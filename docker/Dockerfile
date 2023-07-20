@@ -8,7 +8,6 @@
 # docker build -t ah-mvn:v1 -f Dockerfile .
 
 # =============== Clone Cloudfeeds-atomhopper repo to build container image in AWS EC2 Image Builder ===============
-# FROM amazon/aws-cli:latest AS fetcher
 FROM bitnami/git:latest AS fetcher
 
 ARG GIT_URL=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
@@ -17,8 +16,6 @@ ARG GIT_BRANCH="CF-3561-EC2-image-builder"
 
 RUN mkdir -p /home/ah && \
     cd /home && \
-#     git config --global credential.helper '!aws codecommit credential-helper $@' && \
-#     git config --global credential.UseHttpPath true && \
     git clone -b ${GIT_BRANCH} ${GIT_URL} ah
 
 # ======================== Build cloudfeeds atomhopper using maven container image =======================
@@ -46,7 +43,6 @@ COPY --from=fetcher /home/ah/feeds-atomhopper/pom.xml             /cf-ah/feeds-a
 # RUN mvn -e -B dependency:resolve
 RUN mvn dependency:go-offline
 
-# COPY . .
 COPY --from=fetcher /home/ah/ /cf-ah
 #RUN mvn clean -e -B package
 RUN mvn -B package
@@ -60,20 +56,16 @@ FROM alpine:3 as package
 
 # set SCHEMA_VERSION in other places also in this Dockerfile
 ARG SCHEMA_VERSION="1.138.3-SNAPSHOT"
-#ARG CATALOG_VERSION
 
-#RUN apk add --update --no-cache curl tar ca-certificates && \
 RUN apk add --update --no-cache curl tar && \
     curl https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/usage/usage-schema/${SCHEMA_VERSION}/usage-schema-${SCHEMA_VERSION}-schema.tar.gz | tar xz
-#     curl -o /feedscatalog.war https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/feeds/feedscatalog/${CATALOG_VERSION}/feedscatalog-${CATALOG_VERSION}.war
    # TODO: verify the authenticity and integrity of above packages
 
 
 # ======================== Create deploy Image =======================
-# FROM tomcat:9.0.73-jre8-temurin-jammy as tomcat
 FROM tomcat:9-jre8 as tomcat
 
-ARG AH_VERSION
+ARG AH_VERSION="1.14.1-SNAPSHOT"
 ARG ah_home=/opt/atomhopper
 ARG service_port=8080
 ARG saxon_lic
@@ -82,13 +74,11 @@ ARG db_endpoint="https://dynamodb.us-east-1.amazonaws.com"
 
 LABEL Maintainer="cloudfeeds-core@rackspace.com" \
       description="Docker image for Cloudfeeds Atom-Hopper" \
-      NAME="cloudfeeds-atomhopper" \
+      NAME="atomhopper" \
       Version="${AH_VERSION}"
 
 
 ENV SAXON_HOME=/etc/saxon \
-    #CATALINA_HOME=/opt/tomcat \
-    #AH_VERSION=$ah_version \
     APP_CTX_PATH=/etc/atomhopper \
     AH_HOME=${AH_HOME:-$ah_home} \
     PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME} \
@@ -97,17 +87,6 @@ ENV SAXON_HOME=/etc/saxon \
     DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint}
 
 # add non privileged user
-# RUN <<EOF
-#       groupadd -r feeds && useradd -r -g feeds feeds
-
-#       mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
-#       chown -R feeds:feeds "${CATALINA_HOME}" "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/
-
-#       wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
-#       chown feeds:feeds /usr/local/bin/dumb-init
-#       chmod u+x /usr/local/bin/dumb-init
-# EOF
-
 RUN   groupadd --gid 1000 feeds && \
       useradd -u 1000 -g feeds feeds  && \
       mkdir -p "${AH_HOME}" "${SAXON_HOME}" "${APP_CTX_PATH}" /var/log/atomhopper/ /etc/cloudfeeds/translation/ && \
@@ -118,7 +97,6 @@ RUN   groupadd --gid 1000 feeds && \
 
 WORKDIR ${CATALINA_HOME}
 
-#COPY --chown=feeds:docker ./docker/entrypoint_dev.sh .
 COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/files/application-context.xml           "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/files/atom-server.cfg.xml               "${APP_CTX_PATH}"
 COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/files/logback.xml                       "${APP_CTX_PATH}"
@@ -135,12 +113,6 @@ RUN   apt-get update  && \
 
 USER feeds
 VOLUME /usr/local/tomcat/logs/ /var/log/atomhopper/
-
-
-
-#  ======================= get ca cert bundle from curl.haxx.se  =======================
-#RUN curl https://curl.haxx.se/ca/cacert.pem -L -o /cacert.pem
-
 
 COPY --chown=feeds:feeds --from=builder /cf-ah/feeds-atomhopper/target/feeds-atomhopper-1.14.1-SNAPSHOT.war ${CATALINA_HOME}/webapps/ROOT.war
 
