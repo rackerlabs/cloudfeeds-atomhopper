@@ -11,7 +11,8 @@
 FROM bitnami/git:latest AS fetcher
 
 ARG GIT_URL=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
-#feature_containerization
+
+# ARG GIT_BRANCH="feature_containerization"
 ARG GIT_BRANCH="CF-3561-EC2-image-builder"
 
 RUN mkdir -p /home/ah && \
@@ -79,6 +80,7 @@ LABEL Maintainer="cloudfeeds-core@rackspace.com" \
 
 
 ENV SAXON_HOME=/etc/saxon \
+    SAXON_CONTENT= \
     APP_CTX_PATH=/etc/atomhopper \
     AH_HOME=${AH_HOME:-$ah_home} \
     PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME} \
@@ -127,4 +129,4 @@ HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=3 \
 
 #Start tomcat server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
+CMD ["echo", "${SAXON_CONTENT}", ">", "${SAXON_HOME}/saxon.lic", "&&",  "/usr/local/tomcat/bin/catalina.sh", "run"]
