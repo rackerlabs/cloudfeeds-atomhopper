@@ -129,4 +129,4 @@ HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=3 \
 
 #Start tomcat server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["echo", "${SAXON_CONTENT}", ">", "${SAXON_HOME}/saxon.lic", "&&",  "/usr/local/tomcat/bin/catalina.sh", "run"]
+CMD ["sh", "-c", "echo ${SAXON_CONTENT} > ${SAXON_HOME}/saxon.lic", "&&",  "/usr/local/tomcat/bin/catalina.sh", "run"]
