@@ -10,10 +10,14 @@
 # =============== Clone Cloudfeeds-atomhopper repo to build container image in AWS EC2 Image Builder ===============
 FROM bitnami/git:latest AS fetcher
 
-ARG GIT_URL=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
+# Pass custom values for any Below ARG variables from ECS Container Definition
+ARG git_url=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
 
-# ARG GIT_BRANCH="feature_containerization"
-ARG GIT_BRANCH="CF-3561-EC2-image-builder"
+# ARG git_branch="feature_containerization"
+ARG git_branch="CF-3561-EC2-image-builder"
+
+ENV GIT_URL=${GIT_URL:-$git_url} \
+    GIT_BRANCH=${GIT_BRANCH:-$git_branch}
 
 RUN mkdir -p /home/ah && \
     cd /home && \
@@ -23,7 +27,9 @@ RUN mkdir -p /home/ah && \
 
 FROM maven:3.8.6-openjdk-8-slim AS builder
 
-ARG AH_VERSION="1.14.1-SNAPSHOT"
+ARG ah_version="1.14.1-SNAPSHOT"
+
+ENV AH_VERSION=${AH_VERSION:-$ah_version}
 
 LABEL Maintainer="cloudfeeds-core@rackspace.com" \
       description="Docker image for Cloudfeeds Atom-Hopper" \
@@ -55,8 +61,10 @@ RUN mvn -B package
 
 FROM alpine:3 as package
 
-# set SCHEMA_VERSION in other places also in this Dockerfile
-ARG SCHEMA_VERSION="1.138.3-SNAPSHOT"
+# Pass custom values for any ENV variables from ECS Container Definition
+ARG schema_version="1.138.3-SNAPSHOT"
+
+ENV SCHEMA_VERSION=${SCHEMA_VERSION:-$schema_version}
 
 RUN apk add --update --no-cache curl tar && \
     curl https://artifacts.rackspace.net/artifactory/cloudfeeds-maven-local/com/rackspace/usage/usage-schema/${SCHEMA_VERSION}/usage-schema-${SCHEMA_VERSION}-schema.tar.gz | tar xz
@@ -66,27 +74,28 @@ RUN apk add --update --no-cache curl tar && \
 # ======================== Create deploy Image =======================
 FROM tomcat:9-jre8 as tomcat
 
-ARG AH_VERSION="1.14.1-SNAPSHOT"
+ARG ah_version="1.14.1-SNAPSHOT"
 ARG ah_home=/opt/atomhopper
 ARG service_port=8080
 ARG saxon_lic
-ARG SCHEMA_VERSION="1.138.3-SNAPSHOT"
+ARG schema_version="1.138.3-SNAPSHOT"
 ARG db_endpoint="https://dynamodb.us-east-1.amazonaws.com"
-
-LABEL Maintainer="cloudfeeds-core@rackspace.com" \
-      description="Docker image for Cloudfeeds Atom-Hopper" \
-      NAME="atomhopper" \
-      Version="${AH_VERSION}"
 
 
 ENV SAXON_HOME=/etc/saxon \
-    SAXON_CONTENT= \
+    AH_VERSION=${AH_VERSION:-$ah_version} \
+    SCHEMA_VERSION=${SCHEMA_VERSION:-$schema_version} \
     APP_CTX_PATH=/etc/atomhopper \
     AH_HOME=${AH_HOME:-$ah_home} \
     PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME} \
     SERVICE_PORT=${SERVICE_PORT:-$service_port} \
     # DynamoDB Variables
     DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint}
+
+LABEL Maintainer="cloudfeeds-core@rackspace.com" \
+      description="Docker image for Cloudfeeds Atom-Hopper" \
+      NAME="atomhopper" \
+      Version="${AH_VERSION}"
 
 # add non privileged user
 RUN   groupadd --gid 1000 feeds && \
@@ -105,7 +114,7 @@ COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/files/logback.xml       
 COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/feedscatalog.xml                        /etc/feedscatalog/
 COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/transform.xsl                           /usr/local/tomcat
 #COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/${saxon_lic}                            ${SAXON_HOME}/saxon-license.lic
-
+# COPY --chown=feeds:feeds ./entrypoint.sh /tmp/
 
 
 RUN   apt-get update  && \
@@ -129,4 +138,5 @@ HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=3 \
 
 #Start tomcat server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["sh", "-c", "echo ${SAXON_CONTENT} > ${SAXON_HOME}/saxon.lic", "&&",  "/usr/local/tomcat/bin/catalina.sh", "run"]
+# CMD ["sh", "-c", "echo ${SAXON_CONTENT} > ${SAXON_HOME}/saxon.lic", "&&",  "/usr/local/tomcat/bin/catalina.sh", "run"]
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
