@@ -94,7 +94,7 @@ ENV SAXON_HOME=/etc/saxon \
     DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint} \
     # OpenTelemetry
     CATALINA_OPTS="${CATALINA_OPTS} -javaagent:/opt/atomhopper/aws-opentelemetry-agent.jar" \
-    OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.100:5555 \
+    OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
     OTEL_TRACES_EXPORTER=otlp \
     OTEL_METRICS_EXPORTER=otlp
 
