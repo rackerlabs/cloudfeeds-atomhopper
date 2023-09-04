@@ -13,8 +13,8 @@ FROM bitnami/git:latest AS fetcher
 # Pass custom values for any Below ARG variables from ECS Container Definition
 ARG git_url=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
 
-# ARG git_branch="feature_containerization"
-ARG git_branch="Sample-EC2-image-builder"
+ARG git_branch="feature_containerization"
+# ARG git_branch="Sample-EC2-image-builder"
 
 ENV GIT_URL=${GIT_URL:-$git_url} \
     GIT_BRANCH=${GIT_BRANCH:-$git_branch}
