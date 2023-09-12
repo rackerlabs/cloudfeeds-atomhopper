@@ -35,7 +35,7 @@ LABEL com.rackspace.cloudfeeds.image.maintainer="cloudfeeds-core@rackspace.com" 
       com.rackspace.cloudfeeds.image.description="Docker image for Cloudfeeds Atom-Hopper" \
       com.rackspace.cloudfeeds.image.name="cloudfeeds-atomhopper" \
       com.rackspace.cloudfeeds.image.version="${AH_VERSION}" \
-      org.opencontainers.image.source="https://github.com/rackerlabs/cloudfeeds-atomhopper"
+      com.rackspace.cloudfeeds.image.source="https://github.com/rackerlabs/cloudfeeds-atomhopper"
 
 WORKDIR /cf-ah
 COPY --from=fetcher /home/ah/pom.xml                              /cf-ah/pom.xml
@@ -93,6 +93,7 @@ ENV SAXON_HOME=/etc/saxon \
     # DynamoDB Variables
     DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint} \
     # OpenTelemetry
+    AWS_OTEL_JAVA_AGENT_VERSION="v1.29.0" \
     CATALINA_OPTS="${CATALINA_OPTS} -javaagent:/opt/atomhopper/aws-opentelemetry-agent.jar" \
     OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
     OTEL_TRACES_EXPORTER=otlp \
@@ -127,7 +128,7 @@ COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/transform.xsl           
 RUN   apt-get update  && \
       yes | apt-get install xsltproc -y  && \
       xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml  && \
-      wget -O /opt/atomhopper/aws-opentelemetry-agent.jar https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/v1.28.1/aws-opentelemetry-agent.jar && \
+      wget -O /opt/atomhopper/aws-opentelemetry-agent.jar https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/${AWS_OTEL_JAVA_AGENT_VERSION}/aws-opentelemetry-agent.jar && \
       rm -rf /var/lib/apt/lists/*
 
 USER feeds
