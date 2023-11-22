@@ -13,8 +13,8 @@ FROM bitnami/git:latest AS fetcher
 # Pass custom values for any Below ARG variables from ECS Container Definition
 ARG git_url=https://github.com/rackerlabs/cloudfeeds-atomhopper.git
 
-# ARG git_branch="feature_containerization"
-ARG git_branch="CF-3561-EC2-image-builder"
+ARG git_branch="feature_containerization"
+# ARG git_branch="Sample-EC2-image-builder"
 
 ENV GIT_URL=${GIT_URL:-$git_url} \
     GIT_BRANCH=${GIT_BRANCH:-$git_branch}
@@ -31,10 +31,11 @@ ARG ah_version="1.14.1-SNAPSHOT"
 
 ENV AH_VERSION=${AH_VERSION:-$ah_version}
 
-LABEL Maintainer="cloudfeeds-core@rackspace.com" \
-      description="Docker image for Cloudfeeds Atom-Hopper" \
-      NAME="cloudfeeds-atomhopper" \
-      Version="${AH_VERSION}"
+LABEL com.rackspace.cloudfeeds.image.maintainer="cloudfeeds-core@rackspace.com" \
+      com.rackspace.cloudfeeds.image.description="Docker image for Cloudfeeds Atom-Hopper" \
+      com.rackspace.cloudfeeds.image.name="cloudfeeds-atomhopper" \
+      com.rackspace.cloudfeeds.image.version="${AH_VERSION}" \
+      com.rackspace.cloudfeeds.image.source="https://github.com/rackerlabs/cloudfeeds-atomhopper"
 
 WORKDIR /cf-ah
 COPY --from=fetcher /home/ah/pom.xml                              /cf-ah/pom.xml
@@ -90,12 +91,19 @@ ENV SAXON_HOME=/etc/saxon \
     PATH=${PATH}:${CATALINA_HOME}/bin:${AH_HOME} \
     SERVICE_PORT=${SERVICE_PORT:-$service_port} \
     # DynamoDB Variables
-    DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint}
+    DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint} \
+    # OpenTelemetry
+    AWS_OTEL_JAVA_AGENT_VERSION="v1.29.0" \
+    CATALINA_OPTS="${CATALINA_OPTS} -javaagent:/opt/atomhopper/aws-opentelemetry-agent.jar" \
+    OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
+    OTEL_TRACES_EXPORTER=otlp \
+    OTEL_METRICS_EXPORTER=otlp
 
-LABEL Maintainer="cloudfeeds-core@rackspace.com" \
-      description="Docker image for Cloudfeeds Atom-Hopper" \
-      NAME="atomhopper" \
-      Version="${AH_VERSION}"
+LABEL com.rackspace.cloudfeeds.image.maintainer="cloudfeeds-core@rackspace.com" \
+      com.rackspace.cloudfeeds.image.description="Docker image for Cloudfeeds Atom-Hopper" \
+      com.rackspace.cloudfeeds.image.name="cloudfeeds-atomhopper" \
+      com.rackspace.cloudfeeds.image.version="${AH_VERSION}" \
+      org.opencontainers.image.source="https://github.com/rackerlabs/cloudfeeds-atomhopper"
 
 # add non privileged user
 RUN   groupadd --gid 1000 feeds && \
@@ -118,8 +126,9 @@ COPY --chown=feeds:feeds --from=fetcher /home/ah/docker/transform.xsl           
 
 
 RUN   apt-get update  && \
-      yes | apt-get install xsltproc  && \
+      yes | apt-get install xsltproc -y  && \
       xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml  && \
+      wget -O /opt/atomhopper/aws-opentelemetry-agent.jar https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/${AWS_OTEL_JAVA_AGENT_VERSION}/aws-opentelemetry-agent.jar && \
       rm -rf /var/lib/apt/lists/*
 
 USER feeds
