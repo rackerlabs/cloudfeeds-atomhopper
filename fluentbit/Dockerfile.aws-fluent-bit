@@ -1,0 +1,30 @@
+# syntax=docker/dockerfile:1
+
+FROM bitnami/git:latest AS fetcher
+
+# Pass custom values for any Below ARG variables from ECS Container Definition
+ARG git_url="https://github.com/rackerlabs/cloudfeeds-atomhopper.git"
+
+# ARG git_branch="master"
+ARG git_branch="CF-3821-FluentBit_image"
+
+
+ENV GIT_URL=${GIT_URL:-$git_url} \
+    GIT_BRANCH=${GIT_BRANCH:-$git_branch}
+
+RUN mkdir -p /home/flb && \
+    cd /home && \
+    git clone -b ${GIT_BRANCH} ${GIT_URL} flb
+
+# =========================== Build AWS FLuentBit log image ===========================
+
+FROM public.ecr.aws/aws-observability/aws-for-fluent-bit:init-2.32.0.20240122
+
+LABEL com.rackspace.cloudfeeds.image.maintainer="cloudfeeds-core@rackspace.com" \
+      com.rackspace.cloudfeeds.image.description="Docker image for AWS Fluent bit" \
+      com.rackspace.cloudfeeds.image.name="fluentbit" \
+      com.rackspace.cloudfeeds.image.source="https://github.com/rackerlabs/cloudfeeds-atomhopper"
+
+COPY --from=fetcher /home/flb/fluentbit/flb-atomhopper.conf /flb-atomhopper.conf
+COPY --from=fetcher /home/flb/fluentbit/flb-repose.conf     /flb-repose.conf
+COPY --from=fetcher /home/flb/fluentbit/flb-catalog.conf    /flb-catalog.conf

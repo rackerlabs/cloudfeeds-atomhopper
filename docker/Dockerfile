@@ -142,7 +142,7 @@ EXPOSE ${SERVICE_PORT}
 
 # Perform health check
 HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=3 \
-      CMD curl -L --fail --silent --show-error --connect-timeout 3 --max-time 3 http://localhost:${SERVICE_PORT}/feedscatalog/catalog || exit 1
+      CMD curl -L --fail --silent --show-error --connect-timeout 3 --max-time 3 http://localhost:${SERVICE_PORT}/buildinfo || exit 1
 
 
 #Start tomcat server
