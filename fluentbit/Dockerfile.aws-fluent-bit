@@ -6,7 +6,7 @@ FROM bitnami/git:latest AS fetcher
 ARG git_url="https://github.com/rackerlabs/cloudfeeds-atomhopper.git"
 
 # ARG git_branch="master"
-ARG git_branch="CF-3821-FluentBit_image"
+ARG git_branch="CF-3846-splunk-integration"
 
 
 ENV GIT_URL=${GIT_URL:-$git_url} \
