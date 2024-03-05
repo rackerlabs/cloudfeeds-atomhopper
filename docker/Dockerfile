@@ -93,6 +93,7 @@ ENV SAXON_HOME=/etc/saxon \
     # DynamoDB Variables
     DB_ENDPOINT=${DB_ENDPOINT:-$db_endpoint} \
     # OpenTelemetry
+    OTEL_SDK_DISABLED="false" \
     AWS_OTEL_JAVA_AGENT_VERSION="v1.29.0" \
     CATALINA_OPTS="${CATALINA_OPTS} -javaagent:/opt/atomhopper/aws-opentelemetry-agent.jar" \
     OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
@@ -129,7 +130,7 @@ RUN   apt-get update  && \
       yes | apt-get install xsltproc -y  && \
       xsltproc --output /usr/local/tomcat/conf/server.xml /usr/local/tomcat/transform.xsl /usr/local/tomcat/conf/server.xml  && \
       wget -O /opt/atomhopper/aws-opentelemetry-agent.jar https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/${AWS_OTEL_JAVA_AGENT_VERSION}/aws-opentelemetry-agent.jar && \
-      rm -rf /var/lib/apt/lists/*
+      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER feeds
 VOLUME /usr/local/tomcat/logs/ /var/log/atomhopper/
